@@ -1,16 +1,25 @@
-// server.js
+const express = require('express');
+const path = require('path');
 
-const http = require('http');
+const app = express();
+const PORT = process.env.PORT || 3000;
 
-const hostname = '127.0.0.1';
-const port = 3000;
+// Servir archivos estáticos
+app.use(express.static('public'));
 
-const server = http.createServer((req, res) => {
-  res.statusCode = 200;
-  res.setHeader('Content-Type', 'text/plain');
-  res.end('Hello, World!\n');
+// Rutas
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-server.listen(port, hostname, () => {
-  console.log(`Server running at http://${hostname}:${port}/`);
+app.get('/about', (req, res) => {
+  res.send('Esta es la página "Acerca de".');
+});
+
+app.get('/contact', (req, res) => {
+  res.send('Esta es la página de contacto.');
+});
+
+app.listen(PORT, () => {
+  console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });
